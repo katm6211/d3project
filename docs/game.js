@@ -3,7 +3,7 @@ class Demo1 extends AdventureScene {
         super("demo1", "Room");
     }
     preload() {
-        this.load.setBaseURL('https://katm6211.github.io/d2project/');
+        this.load.setBaseURL('https://katm6211.github.io/d3project/');
         this.load.image('bg', 'Assets/Sprite/Background3.png');
         this.load.image('bed', 'Assets/Sprite/bed2.png');
         this.load.image('desk', 'Assets/Sprite/desk2.png');
