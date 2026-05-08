@@ -4,11 +4,11 @@ class Demo1 extends AdventureScene {
     }
     preload() {
         this.load.setBaseURL('https://katm6211.github.io/d3project/');
-        this.load.image('bg', 'Assets/Sprite/Background3.png');
-        this.load.image('bed', 'Assets/Sprite/bed2.png');
-        this.load.image('desk', 'Assets/Sprite/desk2.png');
-        this.load.image('door', 'Assets/Sprite/door2.png');
-        this.load.spritesheet('sprite', 'Assets/Sprite/totalsprite2.2.png', { frameWidth: 14, frameHeight: 30 });
+        this.load.image('bg', 'Assets/scene1bedroom/Background3.png');
+        this.load.image('bed', 'Assets/scene1bedroom/bed2.png');
+        this.load.image('desk', 'Assets/scene1bedroom/desk2.png');
+        this.load.image('door', 'Assets/scene1bedroom/door2.png');
+        this.load.spritesheet('sprite', 'Assets/scene1bedroom/totalsprite2.2.png', { frameWidth: 14, frameHeight: 30 });
     }
 
     update() {
