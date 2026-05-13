@@ -13,11 +13,7 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: Deploy docs folder to Itch.io via Butler
-        uses: JosephBerry/itchio-butler-upload-action@v1.1.2
-        with:
-          credentials: ${{ secrets.BUTLER_API_KEY }}
-          game_path: ./docs
-          user: katm6211
-          game: d3project
-          channel: html
+      - name: Deploy docs folder to Itch.io
+        run: butler push ./docs katm6211/d3project:html
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
