@@ -12,6 +12,9 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
+        
+      - name: Install and Setup Butler CLI
+        uses: remarkablegames/setup-butler@v3
 
       - name: Deploy docs folder to Itch.io
         run: butler push ./docs katm6211/d3project:html
