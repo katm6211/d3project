@@ -1,0 +1,23 @@
+name: Continuous Deployment to Itch.io
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Deploy docs folder to Itch.io via Butler
+        uses: JosephBerry/itchio-butler-upload-action@v1.1.2
+        with:
+          credentials: ${{ secrets.BUTLER_API_KEY }}
+          game_path: ./docs
+          user: katm6211
+          game: d3project
+          channel: html
