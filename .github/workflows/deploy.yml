@@ -12,11 +12,17 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
-        
+        with:
+          fetch-depth: 0
+
       - name: Install and Setup Butler CLI
         uses: remarkablegames/setup-butler@v3
 
+      - name: Generate Version Number
+        id: versioning
+        run: echo "count=$(git rev-list --count HEAD)" >> $GITHUB_OUTPUT
+
       - name: Deploy docs folder to Itch.io
-        run: butler push ./docs katm6211/d3project:html
+        run: butler push ./docs katm6211/d3project:html --userversion "b${{ steps.versioning.outputs.count }}"
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
