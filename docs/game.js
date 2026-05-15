@@ -1,6 +1,6 @@
-class Demo1 extends AdventureScene {
+class Room1 extends AdventureScene {
     constructor() {
-        super("demo1", "Room");
+        super("room1", "Room");
     }
     preload() {
         this.load.setBaseURL('https://katm6211.github.io/d3project/');
@@ -9,6 +9,7 @@ class Demo1 extends AdventureScene {
         this.load.image('desk', 'Assets/scene1bedroom/desk2.png');
         this.load.image('door', 'Assets/scene1bedroom/door2.png');
         this.load.spritesheet('sprite', 'Assets/scene1bedroom/totalsprite2.2.png', { frameWidth: 14, frameHeight: 30 });
+        this.load.json('shapes', 'Assets/shapes.json');
     }
 
     update() {
@@ -206,12 +207,16 @@ class Demo1 extends AdventureScene {
     }
 }
 
-class Demo2 extends AdventureScene {
+class Room2 extends AdventureScene {
     constructor() {
-        super("demo2", "The second room has a long name (it truly does).");
+        super("room2", "The second room has a long name (it truly does).");
     }
     preload() {
-
+        this.load.setBaseURL('https://katm6211.github.io/d3project/');
+        this.load.image('bg', 'Assets/scene2hallway/Background2.png');
+        this.load.image('door', 'Assets/scene2hallway/regulardoor.png');
+        this.load.image('smalldoor', 'Assets/scene2hallway/smalldoor.png');
+        this.load.spritesheet('sprite', 'Assets/scene1bedroom/totalsprite2.2.png', { frameWidth: 14, frameHeight: 30 });
     }
 
     onEnter() {
@@ -283,7 +288,7 @@ const game = new Phaser.Game({
             debug: false
         }
     },
-    scene: [Intro, Demo1, Demo2, Outro],
+    scene: [Intro, Room1, Room2, Outro],
     title: "Adventure Game",
 });
 
