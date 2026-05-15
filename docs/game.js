@@ -78,21 +78,29 @@ class Room1 extends AdventureScene {
             });
             return exitDetected;
         }
-            if (!Phaser.Geom.Rectangle.ContainsRect(imgBounds, ghostRect)) {
-                return true; 
-            }
+        if (!Phaser.Geom.Rectangle.ContainsRect(imgBounds, ghostRect)) {
+            return true;
+        }
     }
 
 
     onEnter() {
         const { width, height } = this.scale;
+        const shapes = this.shapes = this.cache.json.get('shapes');
         const bg = this.bg = this.add.image(width * 3 / 4 / 2, height / 2, 'bg').setScale(4);
         const sprite = this.sprite = this.physics.add.sprite(bg.x, bg.y, 'sprite').setScale(4);
-        sprite.x = bg.x - 1/2 * bg.displayWidth + 1/2 * sprite.displayWidth;
-        
-        const door = this.door = this.add.image(bg.x, bg.y, 'door').setScale(4);
+        sprite.x = bg.x - 1 / 2 * bg.displayWidth + 1 / 2 * sprite.displayWidth;
+
+        const door = this.door = this.physics.add.staticSprite(bg.x, bg.y, 'door').setScale(4);
         door.x = bg.x - 1 / 8 * bg.displayWidth;
         door.y = bg.y - 1 / 2 * bg.displayHeight - 1 / 2 * door.displayHeight;
+        const padding = 40; 
+        const sensorWidth = this.door.displayWidth + padding;
+        const sensorHeight = this.door.displayHeight + padding;
+
+        const doorSensor = this.doorSensor = this.add.zone(this.door.x, this.door.y, sensorWidth, sensorHeight);
+        this.physics.add.existing(this.doorSensor, true); 
+
         const desk = this.desk = this.add.image(bg.x, bg.y, 'desk').setScale(4);
         desk.y = bg.y - 1 / 2 * bg.displayHeight + 1 / 2 * desk.displayHeight;
         const bed = this.bed = this.add.image(bg.x, bg.y, 'bed').setScale(4);
@@ -148,7 +156,28 @@ class Room1 extends AdventureScene {
                 }
             }
         });
+        const handleDoorTransition = (sprite, door) => {
+            if (this.hasTriggeredTransition) return;
+            this.hasTriggeredTransition = true;
 
+            sprite.setVelocity(0);
+            sprite.body.enable = false;
+            this.input.keyboard.enabled = false;
+
+            this.cameras.main.fadeOut(1000, 0, 0, 0);
+
+            this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
+                this.input.keyboard.enabled = true;
+                this.scene.start('room2');
+            });
+        };
+        this.physics.add.overlap(
+            this.sprite,
+            this.doorSensor,
+            handleDoorTransition,
+            null,
+            this
+        );
 
 
         /*  let clip = this.add.text(this.w * 0.3, this.w * 0.3, "📎 paperclip")
@@ -227,7 +256,7 @@ class Room2 extends AdventureScene {
                 this.showMessage("You've got no other choice, really.");
             })
             .on('pointerdown', () => {
-                this.gotoScene('demo1');
+                this.gotoScene('room1');
             });
 
         let finish = this.add.text(this.w * 0.6, this.w * 0.2, '(finish the game)')
@@ -257,7 +286,7 @@ class Intro extends Phaser.Scene {
         this.add.text(50, 100, "Click anywhere to begin.").setFontSize(20);
         this.input.on('pointerdown', () => {
             this.cameras.main.fade(1000, 0, 0, 0);
-            this.time.delayedCall(1000, () => this.scene.start('demo1'));
+            this.time.delayedCall(1000, () => this.scene.start('room1'));
         });
     }
 }
